@@ -136,9 +136,33 @@ def selection_sort(array = []):
         print(iteration_array)
         print(f"Practical Best Case Time Complexity is: O({calculate_average(iteration_array)})")
     elif choice == 2:
-        pass
+        print('You choosed average case.')
+        new_array = array.copy()
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = selection_sort_implement(array=array.copy())
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Average Case Time Complexity is: O({len(new_array) * len(new_array)})")
+        print(iteration_array)
+        print(f"Practical Average Case Time Complexity is: O({calculate_average(iteration_array)})")
     elif choice == 3:
-        pass
+        print('You choosed worst case.')
+        new_array = sorted(array.copy(), reverse=True)
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = selection_sort_implement(sorted(array.copy(), reverse=True))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Average Case Time Complexity is: O({len(new_array) * len(new_array)})")
+        print(iteration_array)
+        print(f"Practical Average Case Time Complexity is: O({calculate_average(iteration_array)})")
     else:
         print("Please choose valid option.")
         return
