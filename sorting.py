@@ -167,7 +167,7 @@ def selection_sort(array = []):
         print("Please choose valid option.")
         return
 
-def insertion_sort(array):
+def insertion_sort(array=[]):
     pass
 
 def merge_sort(array):
