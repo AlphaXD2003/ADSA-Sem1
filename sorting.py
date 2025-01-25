@@ -167,11 +167,200 @@ def selection_sort(array = []):
         print("Please choose valid option.")
         return
 
-def insertion_sort(array=[]):
-    pass
+def insertion_sort_implemenation(array = []):
+    length = len(array)
+    swap = 0
+    iteration = 0
+    for i in range (1, length):
+        key = array[i]
+        j = i - 1
+        while j >= 0 and array[j] > key :
+            iteration += 1
+            array[j+1] = array[j]
+            j -= 1
+        iteration += 1
+        array[j+1] = key
+        if j + 1 != i:
+            swap += 1
+    return iteration, swap
 
-def merge_sort(array):
-    pass
+def insertion_sort(array=[]):
+    print("********************")
+    print("Which case do you want to see ?")
+    print("Press 1 for Best Case.")
+    print("Press 2 for Average Case.")
+    print("Press 3 for Worst Case.")
+    print("********************")
+    choice = int(input("Enter your choice : "))
+    if(choice == 1):
+        print('You choosed best case.')
+        new_array = sorted(array.copy(), reverse=True)
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = insertion_sort_implemenation(array=sorted(array.copy()))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array) })")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: O({calculate_average(iteration_array)})")
+    elif(choice == 2):
+        print('You choosed average case.')
+        new_array = array.copy()
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = insertion_sort_implemenation(array.copy())
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Average Case Time Complexity is: O({len(new_array) * len(new_array) })")
+        print(iteration_array)
+        print(f"Practical Average Case Time Complexity is: O({calculate_average(iteration_array)})")
+    elif choice == 3:
+        print('You choosed worst case.')
+        new_array = array.copy()
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = insertion_sort_implemenation(array.copy())
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Worst Case Time Complexity is: O({len(new_array) * len(new_array) })")
+        print(iteration_array)
+        print(f"Practical Worst Case Time Complexity is: O({calculate_average(iteration_array)})")
+    else:
+        print("Please choose a valid option.")
+        return
+
+merge_iteration_count = 0
+merge_swap_count = 0
+
+def merge(array = [], left = 0,mid = (0+len(array) // 2), right = len(array)):
+    global merge_iteration_count
+    global merge_swap_count
+    left_sub_array_size = mid - left + 1
+    right_sub_array_size = right - mid
+    left_sub_array = []
+    right_sub_array = []
+
+    for i in range (0, left_sub_array_size):
+        left_sub_array.append(array[left + i])
+    
+    for i in range(0, right_sub_array_size):
+        right_sub_array.append(array[mid+1+i])
+
+    i = j = 0
+    k = left
+    
+
+    while i < left_sub_array_size and j < right_sub_array_size:  
+        merge_iteration_count += 1
+        if left_sub_array[i] <= right_sub_array[j]:
+            array[k] = left_sub_array[i]
+            i += 1
+            merge_swap_count
+        else:
+            array[k] = right_sub_array[j]
+            j += 1
+            merge_swap_count
+        k += 1
+    
+    while i < left_sub_array_size:
+        merge_iteration_count += 1
+        merge_swap_count
+        array[k] = left_sub_array[i]
+        i += 1
+        k += 1
+    
+    while j < right_sub_array_size:
+        merge_iteration_count += 1
+        merge_swap_count
+        array[k] = right_sub_array[j]
+        j += 1
+        k += 1
+    
+    return merge_iteration_count, merge_swap_count
+
+def merge_sort_main(array = [], low = 0, high = len(array)):
+    if low >= high:
+        return
+    mid = (low+high)//2
+    merge_sort_main(array, low, mid)
+    merge_sort_main(array, mid+1, high)
+    merge(array, low, mid, high)
+
+def merge_sort_implemenation(array=[]):
+    length = len(array)
+    low = 0
+    high = length - 1
+    merge_sort_main(array=array,low=low,high=high)
+    global merge_iteration_count
+    global merge_swap_count
+    iteration_count = merge_iteration_count
+    swap_count = merge_swap_count
+    merge_iteration_count = 0
+    merge_swap_count = 0
+    return iteration_count, swap_count
+
+def merge_sort(array=[]):
+    print("********************")
+    print("Only Average case is Availiable.")
+    print("Press 1 for input sorted data.")
+    print("Press 2 for input revered sorted data.")
+    print("Press 3 for input random data.")
+    print("********************")
+    choice = int(input("Enter your choice : "))
+    if(choice == 1):
+        print('You choosed to input sorted data.')
+        new_array = sorted(array.copy())
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = merge_sort_implemenation(array=sorted(array.copy()))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array)}log{len(new_array) } = {len(new_array) * math.log2(len(new_array))})")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: { calculate_average(iteration_array)}")
+    elif choice == 2:
+        print('You choosed to input reverse sorted data.')
+        new_array = sorted(array.copy(), reverse=True)
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = merge_sort_implemenation(array=sorted(array.copy(), reverse= True))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array)}log{len(new_array) } = {len(new_array) * math.log2(len(new_array))})")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: { calculate_average(iteration_array)}")
+    elif choice == 3:
+        print('You choosed to input random  data.')
+        new_array = array.copy()
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = merge_sort_implemenation(array=array.copy())
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array)}log{len(new_array) } = {len(new_array) * math.log2(len(new_array))})")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: { calculate_average(iteration_array)}")
+    else:
+        print("Please Choose Valid Option.")
+        return 
 
 def quick_sort(array):
     pass
@@ -195,18 +384,18 @@ def main_program():
         choice = int(input('Enter Your Choice: '))
         
         if choice == 1:
-            print('You choosed Linear Search.')
+            print('You choosed Bubble Sort.')
             bubble_sort(array=array)           
         elif choice == 2:
-            print('You choosed Binary Search.')
-            selection_sort(array=sorted(array.copy()))
+            print('You choosed Selection Search.')
+            selection_sort(array=array.copy())
             
         elif choice == 3:
-            print('You choosed Binary Search.')
-            insertion_sort(array=sorted(array.copy()))
+            print('You choosed Insertion Sort.')
+            insertion_sort(array=array.copy())
         elif choice == 4:
-            print('You choosed Binary Search.')
-            merge_sort(array=sorted(array.copy()))           
+            print('You choosed Merge Sort.')
+            merge_sort(array=array.copy())           
         elif choice == 5:
             print('You choosed Binary Search.')
             quick_sort(array=sorted(array.copy()))           
