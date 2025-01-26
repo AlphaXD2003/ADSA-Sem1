@@ -79,6 +79,7 @@ def binary_search(array = []):
             print("The value is not present")
         else:
             print(f"The value is present at {index}")
+            print(f"Iteration Count: {count}")
         complexity_array.append(count)
 
     print(f"Theoritical Time Complexity : O(log {length}) = {math.log2(length)}")

@@ -362,8 +362,133 @@ def merge_sort(array=[]):
         print("Please Choose Valid Option.")
         return 
 
-def quick_sort(array):
-    pass
+quick_sort_iteration_count = 0
+quick_sort_swap_count = 0
+
+
+def generate_best_case_array(n):
+    if n <= 0:
+        return []
+    
+    # Create an array to store the best-case values for QuickSort
+    best_case_array = [0] * n
+    
+    def fill_array(start, end, index):
+        # Check if index is within array bounds
+        if index >= n or start > end:
+            return
+        
+        mid = (start + end) // 2
+        best_case_array[index] = mid
+        
+        # Calculate left and right child indices
+        left_child = 2 * index + 1
+        right_child = 2 * index + 2
+        
+        # Recursively fill left subtree
+        if left_child < n:
+            fill_array(start, mid - 1, left_child)
+        
+        # Recursively fill right subtree
+        if right_child < n:
+            fill_array(mid + 1, end, right_child)
+    
+    # Start filling the array
+    fill_array(0, n - 1, 0)
+    
+    return best_case_array
+
+def partition(array,low,high):
+    global quick_sort_swap_count, quick_sort_iteration_count
+    pivot = array[high]
+    i = low - 1
+    for j in range(low,high):
+        quick_sort_iteration_count += 1
+        if array[j] < pivot:
+            i += 1
+            quick_sort_swap_count += 1
+            swap_two_elements(array=array,index1=i,index2=j)
+    quick_sort_swap_count += 1
+    swap_two_elements(array=array,index1=i+1,index2=high)
+    return i+1
+
+def quick_sort_main(array,low,high):
+    if low  >= high :
+        return
+    pivot_index = partition(array=array,low=low,high=high)
+    quick_sort_main(array,low,pivot_index-1)
+    quick_sort_main(array,pivot_index+1,high)
+    
+
+def quick_sort_implementation(array = []):
+    length = len(array)
+    low = 0
+    high = length - 1
+    quick_sort_main(array,low,high)
+
+    global quick_sort_swap_count, quick_sort_iteration_count
+    iteration, swap =  quick_sort_swap_count, quick_sort_iteration_count
+    quick_sort_swap_count = quick_sort_iteration_count = 0
+    return iteration, swap
+
+
+def quick_sort(array=[]):
+    print("********************")
+    print("Which case do you want to see ?")
+    print("Press 1 for Best Case.")
+    print("Press 2 for Average Case.")
+    print("Press 3 for Worst Case.")
+    print("********************")
+    choice = int(input("Enter your choice : "))
+    if(choice == 1):
+        print('You choosed best case.')
+        new_array = sorted(array.copy())
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            arr = generate_best_case_array(len(new_array))
+            print(arr)
+            iteration, swap = quick_sort_implementation(array=arr)
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array) }log{len(new_array)}) = {len(new_array) * math.log2(len(new_array))}")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: {calculate_average(iteration_array)}")
+    elif(choice == 3):
+        print('You choosed worst case.')
+        n = 10000
+        new_array = array.copy()[1:500]
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            # iteration, swap = quick_sort_implementation(array=(sorted(array.copy()))[1:500])
+            iteration, swap = quick_sort_implementation(sorted(list(range(0,501))))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Worst Case Time Complexity is: O({len(new_array) }x {len(new_array)}) = {len(new_array) * len(new_array) }")
+        print(iteration_array)
+        print(f"Practical Worst Case Time Complexity is: {calculate_average(iteration_array)}")
+    elif(choice == 2):
+        print('You choosed worst case.')
+        new_array = (array.copy())
+        run_count = int(input("Enter the number of time You want to run this algorithm: "))
+        swap_array = []
+        iteration_array = []
+        for i in range(0, run_count):
+            iteration, swap = quick_sort_implementation(array=(array.copy()))
+            iteration_array.append(iteration)
+            swap_array.append(swap)
+        
+        print(f"Theorical Best Case Time Complexity is: O({len(new_array) }log{len(new_array)}) = {len(new_array) * math.log2(len(new_array))}")
+        print(iteration_array)
+        print(f"Practical Best Case Time Complexity is: {calculate_average(iteration_array)}")
+    else :
+        print("Choose Valid Option")
+        return
 
 
 
@@ -397,8 +522,8 @@ def main_program():
             print('You choosed Merge Sort.')
             merge_sort(array=array.copy())           
         elif choice == 5:
-            print('You choosed Binary Search.')
-            quick_sort(array=sorted(array.copy()))           
+            print('You choosed Quick Search.')
+            quick_sort(array=array.copy())           
         elif choice == 6:
             print('You choosed to Quit.')           
             break
