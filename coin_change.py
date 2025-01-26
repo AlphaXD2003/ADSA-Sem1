@@ -47,6 +47,7 @@ def greedy_infinite():
         coin = coins_inorder[i]
         print(f"There are {coins_inorder.count(coin)} coins with weight {coin}")
         
+    print('Already optimum as the coin supply is infinite.')
     amount = 0
     coin_array = []
     coins_inorder = []
