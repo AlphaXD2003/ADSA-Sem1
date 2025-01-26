@@ -113,7 +113,7 @@ def greedy_finite():
     print("Press 2 to deny.")
     check = int(input("Enter your choice: "))
     if check == 1:
-        greedy_approach()
+        dp_approach()
     elif check == 2:
         print('You choosed not to check whether it is optimum or not.')
         print('Resetting all the data.........')
