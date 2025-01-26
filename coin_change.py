@@ -53,7 +53,7 @@ def greedy_infinite():
     coins_inorder = []
     coin_supply_array = []
 
-def greedy_finite():
+def greedy_finite(): 
     global amount, coin_array, coin_supply_array,coins_inorder
     amount = int(input("Enter the amount you want to achieve: "))
     if amount <= 0:
@@ -88,7 +88,7 @@ def greedy_finite():
         coin = coin_array[i]
         required_coins = new_amount // coin
         total_coins = min(required_coins, coin_supply_array[i])
-        new_amount %= (total_coins * coin)
+        new_amount -= (total_coins * coin)
         coin_supply_array_dupl[i] -= total_coins
         for j in range(total_coins):
             coins_inorder.append(coin)
@@ -142,7 +142,19 @@ def greedy_approach():
         return
 
 def dp_approach():
-    pass
+    global amount, coin_array, coin_supply_array, coins_inorder
+
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+
+    # Track coin usage
+    coin_usage = {coin: 0 for coin in coin_array}
+    print(coin_usage)
+
+    coin_selection = [[] for _ in range(amount + 1)]
+    for i in range(1, amount + 1):
+        for j, coin in enumerate(coin_array):
+            pass
 
 def main_program():
     while 1:
