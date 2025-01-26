@@ -84,6 +84,8 @@ def binary_search(array = []):
 
     print(f"Theoritical Time Complexity : O(log {length}) = {math.log2(length)}")
     print(f"Practical Time Complexity : {calculate_average(complexity_array)}")
+
+    
     
 
 def main_program():

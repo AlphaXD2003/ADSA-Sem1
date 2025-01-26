@@ -431,7 +431,6 @@ def quick_sort_implementation(array = []):
     quick_sort_swap_count = quick_sort_iteration_count = 0
     return iteration, swap
 
-
 def quick_sort(array=[]):
     print("********************")
     print("Which case do you want to see ?")
@@ -489,8 +488,6 @@ def quick_sort(array=[]):
     else :
         print("Choose Valid Option")
         return
-
-
 
 def main_program():
     global array
