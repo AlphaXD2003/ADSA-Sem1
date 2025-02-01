@@ -398,6 +398,13 @@ def generate_best_case_array(n):
     
     return best_case_array
 
+def generate_best_case_quick_sort(arr):
+    if not arr:
+        return []
+    
+    mid = len(arr) // 2  # Choose the median element to balance partitions
+    return generate_best_case_quick_sort(arr[:mid]) + generate_best_case_quick_sort(arr[mid+1:]) + [arr[mid]]
+
 def partition(array,low,high):
     global quick_sort_swap_count, quick_sort_iteration_count
     pivot = array[high]
@@ -446,7 +453,7 @@ def quick_sort(array=[]):
         swap_array = []
         iteration_array = []
         for i in range(0, run_count):
-            arr = generate_best_case_array(len(new_array))
+            arr = generate_best_case_quick_sort(new_array)
             print(arr)
             iteration, swap = quick_sort_implementation(array=arr)
             iteration_array.append(iteration)
