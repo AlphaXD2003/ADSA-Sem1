@@ -398,12 +398,33 @@ def generate_best_case_array(n):
     
     return best_case_array
 
-def generate_best_case_quick_sort(arr):
-    if not arr:
-        return []
+def generate_quicksort_best_case(size=10000):
+    """
+    Generates an array that represents best case for QuickSort with last element as pivot.
+    The array will be arranged so that each partition step divides the array equally.
+    """
+    # Generate random numbers
+    numbers = random.sample(range(1, size * 10), size)
+    numbers.sort()
     
-    mid = len(arr) // 2  # Choose the median element to balance partitions
-    return generate_best_case_quick_sort(arr[:mid]) + generate_best_case_quick_sort(arr[mid+1:]) + [arr[mid]]
+    result = []
+    
+    # Take elements at regular intervals to ensure balanced partitioning
+    step = len(numbers) // 2
+    while len(numbers) > 0:
+        if len(numbers) > 1:
+            # Take the middle element and put it at the end of its subarray
+            mid_idx = len(numbers) // 2
+            result.append(numbers[mid_idx-1])  # element before median
+            if mid_idx + 1 < len(numbers):
+                result.append(numbers[mid_idx+1])  # element after median
+            result.append(numbers[mid_idx])  # median element
+        else:
+            result.extend(numbers)
+        numbers = numbers[step:]
+        step = max(1, step // 2)
+    
+    return result[:size]  # Ensure we return exactly the requested size
 
 def partition(array,low,high):
     global quick_sort_swap_count, quick_sort_iteration_count
@@ -448,13 +469,15 @@ def quick_sort(array=[]):
     choice = int(input("Enter your choice : "))
     if(choice == 1):
         print('You choosed best case.')
-        new_array = sorted(array.copy())
+        new_array = generate_quicksort_best_case(10000)
+        print(new_array)
+        print(new_array.__len__)
         run_count = int(input("Enter the number of time You want to run this algorithm: "))
         swap_array = []
         iteration_array = []
         for i in range(0, run_count):
-            arr = generate_best_case_quick_sort(new_array)
-            print(arr)
+            arr = new_array.copy()
+            print(len(arr))
             iteration, swap = quick_sort_implementation(array=arr)
             iteration_array.append(iteration)
             swap_array.append(swap)
